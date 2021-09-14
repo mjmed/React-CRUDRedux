@@ -6,11 +6,6 @@
       "precio": "31111"
     },
     {
-      "id": 2,
-      "nombre": "Jugo de Naranja",
-      "precio": "1"
-    },
-    {
       "nombre": "Jugo de Naranja",
       "precio": "300",
       "id": 3
@@ -29,11 +24,6 @@
       "nombre": "Pan lactal",
       "precio": 160,
       "id": 6
-    },
-    {
-      "nombre": "Queso barra",
-      "precio": 200,
-      "id": 7
     }
   ]
 }
