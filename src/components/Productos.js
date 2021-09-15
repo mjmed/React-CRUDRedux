@@ -21,7 +21,8 @@ const Productos = () => {
         
         cargarProductos();
 
-    }, [dispatch]);
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <Fragment>
@@ -63,7 +64,6 @@ const Productos = () => {
                     )
             }
 
-            
         </Fragment>
     )
 }

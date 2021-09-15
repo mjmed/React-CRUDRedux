@@ -15,7 +15,7 @@ Incluye:
 - [**axios**](https://www.npmjs.com/package/axios).
 - [**sweetalert2**](https://sweetalert2.github.io/).
 
-### Versión: 1.3.0
+### Versión: 1.4.0
 
 ### Notas:
 Comando para ejecutar la aplicación:
