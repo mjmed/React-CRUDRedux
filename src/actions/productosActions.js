@@ -10,13 +10,17 @@ import {
     OBTENER_PRODUCTO_ELIMINAR,
     PRODUCTO_ELIMINADO_EXITO,
     PRODUCTO_ELIMINADO_ERROR,
+    OBTENER_PRODUCTO_EDITAR,
+    COMENZAR_EDICION_PRODUCTO,
+    PRODUCTO_EDITADO_EXITO,
+    PRODUCTO_EDITADO_ERROR,
 } from '../types';
 import clienteAxios from '../config/axios';
 
 
 // crear nuevos productos
 export function crearNuevoProductoAction( producto ) {
-    return async(dispatch) => {
+    return async (dispatch) => {
 
         dispatch( agregarProducto() );
 
@@ -26,21 +30,23 @@ export function crearNuevoProductoAction( producto ) {
 
             dispatch( agregarProductoExito(producto) );
 
-            Swal.fire(
-                'Correcto',
-                'El producto se agregó correctamente',
-                'success'
-            );
+            Swal.fire({
+                title: 'Correcto',
+                text: 'El producto se agregó correctamente',
+                icon: 'success',
+                confirmButtonColor: '#78c2ad',
+            });
 
         } catch (error) {
-            console.log(error);
 
+            console.log(error);
             dispatch( agregarProductoError(true) );
 
             Swal.fire({
-                icon: 'error',
                 title: 'Hubo un error',
-                text: 'Hubo un error, intenta de nuevo'
+                text: 'Hubo un error, intenta de nuevo',
+                icon: 'error',
+                confirmButtonColor: '#78c2ad',
             });
         }
     }
@@ -70,7 +76,6 @@ export function obtenerProductosAction() {
         try {
 
             const respuesta = await clienteAxios.get('/productos');
-            
             dispatch( descargaProductosExitosa(respuesta.data) );
 
         } catch (error) {
@@ -109,11 +114,12 @@ export function borrarProductoAction(id) {
             
             dispatch( eliminarProductoExito() );
 
-            Swal.fire(
-                'Eliminado',
-                'El producto se eliminó correctamente',
-                'success'
-            );
+            Swal.fire({
+                title: 'Eliminado',
+                text: 'El producto se eliminó correctamente',
+                icon: 'success',
+                confirmButtonColor: '#78c2ad',
+            });
 
         } catch (error) {
 
@@ -134,5 +140,68 @@ const eliminarProductoExito = () => ({
 
 const eliminarProductoError = () => ({
     type:PRODUCTO_ELIMINADO_ERROR,
+    payload: true
+});
+
+
+// colocar producto en edición
+export function obtenerProductoEditar( producto ) {
+    return (dispatch) => {
+
+        dispatch( obtenerProductoEditarAction(producto) );
+    }
+}
+
+const obtenerProductoEditarAction = producto => ({
+    type: OBTENER_PRODUCTO_EDITAR,
+    payload: producto
+});
+
+
+// editar un registro en la api y el state
+export function editarProductoAction( producto ) {
+    return async (dispatch) => {
+
+        dispatch( editarProducto(producto) );
+
+        try {
+
+            await clienteAxios.put(`/productos/${ producto.id }`, producto);
+
+            dispatch( editarProductoExito(producto) );
+
+            Swal.fire({
+                title: 'Correcto',
+                text: 'El producto se guardo correctamente',
+                icon: 'success',
+                confirmButtonColor: '#78c2ad',
+            });
+
+        } catch (error) {
+            
+            console.log(error);
+            dispatch( editarProductoError() );
+
+            Swal.fire({
+                title: 'Hubo un error',
+                text: 'Hubo un error, intenta de nuevo',
+                icon: 'error',
+                confirmButtonColor: '#78c2ad',
+            });
+        }
+    }
+}
+
+const editarProducto = () => ({
+    type: COMENZAR_EDICION_PRODUCTO
+});
+
+const editarProductoExito = producto => ({
+    type: PRODUCTO_EDITADO_EXITO,
+    payload: producto
+});
+
+const editarProductoError = () => ({
+    type: PRODUCTO_EDITADO_ERROR,
     payload: true
 });

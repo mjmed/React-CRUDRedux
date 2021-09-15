@@ -40,12 +40,18 @@ h1 a.text-light:hover {
 }
 .acciones {
   margin: 1rem 0;
+  text-align: center;
+  width: 250px;
 }
 @media (min-width:768px) {
   .acciones{
     margin: 0;
   }
 }
-.acciones > *{
+/* .acciones > *{
   flex: 1;
+} */
+
+.spinner-contenedor {
+  text-align: center;
 }

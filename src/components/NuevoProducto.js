@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { crearNuevoProductoAction } from '../actions/productosActions';
+import Spinner from './Spinner';
 
 
 const NuevoProducto = ({ history }) => {
 
     // state de componente
     const [ nombre, guardarNombre ] = useState('');
-    const [ precio, guardarPrecio ] = useState(0);
+    const [ precio, guardarPrecio ] = useState('');
 
     const dispatch = useDispatch();
 
@@ -21,7 +22,7 @@ const NuevoProducto = ({ history }) => {
 
         e.preventDefault();
 
-        if ( nombre.trim() === '' || precio <= 0 ) {
+        if ( nombre.trim() === '' || precio <= 0 || precio === '' ) {
             return;
         }
 
@@ -75,7 +76,7 @@ const NuevoProducto = ({ history }) => {
                             </button>
                         </form>
 
-                        { (cargando) ? <p>Cargando...</p> : null }
+                        { (cargando) ? <Spinner /> : null }
                         { (error) ? <p className="alert alert-danger p2 mt-4 text-center">Hubo un error</p> : null }
                     </div>
                 </div>

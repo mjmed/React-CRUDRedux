@@ -1,6 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+
+import { editarProductoAction } from '../actions/productosActions';
+import Spinner from './Spinner';
+
 
 const EditarProducto = () => {
+
+    const [ producto, guardarProducto ] = useState({
+        nombre: '',
+        precio: ''
+    });
+    const { nombre, precio } = producto;
+
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    const productoEditar = useSelector(state => state.productos.productoEditar);
+    const cargando = useSelector(state => state.productos.loading);
+    
+    useEffect(() => {
+        
+        guardarProducto(productoEditar);
+        
+    }, [ productoEditar ]);
+
+    const handleInputChange = ({ target }) => {
+
+        guardarProducto({
+            ...producto,
+            [target.name]: target.value
+        });
+    }
+    
+    const handleSubmit = e => {
+        
+        e.preventDefault();
+
+        dispatch( editarProductoAction(producto) );
+
+        history.push('/');
+    }
+
     return (
         <div className="row justify-content-center">
             <div className="col-md-8">
@@ -10,7 +52,7 @@ const EditarProducto = () => {
                             Editar Producto
                         </h2>
 
-                        <form>
+                        <form onSubmit={ handleSubmit }>
                             <div className="form-group">
                                 <label>Nombre producto</label>
                                 <input
@@ -18,6 +60,8 @@ const EditarProducto = () => {
                                     className="form-control"
                                     placeholder="Nombre producto"
                                     name="nombre"
+                                    value={ nombre}
+                                    onChange={ handleInputChange }
                                 />
                             </div>
 
@@ -28,6 +72,8 @@ const EditarProducto = () => {
                                     className="form-control"
                                     placeholder="Precio producto"
                                     name="precio"
+                                    value={ precio }
+                                    onChange={ handleInputChange }
                                 />
                             </div>
 
@@ -38,6 +84,8 @@ const EditarProducto = () => {
                                 Guardar cambios
                             </button>
                         </form>
+
+                        { (cargando) ? <Spinner /> : null }
                     </div>
                 </div>
             </div>
